@@ -42,13 +42,13 @@ module.exports = {
     etherscan: {
         apiKey: process.env.BLOCKSCAN_API,
     },
-    // gasReporter: {
-    //     enabled: true,
-    //     coinmarketcap: process.env.COINMARKETCAP_API,
-    //     currency: "USD",
-    //     noColors: false,
-    //     // outputFile:"gas-report.txt"
-    // },
+    gasReporter: {
+        enabled: true,
+        coinmarketcap: process.env.COINMARKETCAP_API_KEY,
+        currency: "USD",
+        noColors: false,
+        outputFile: "gas-report.txt",
+    },
     namedAccounts: {
         deployer: {
             default: 0,

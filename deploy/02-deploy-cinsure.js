@@ -12,15 +12,28 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const { deployer } = await getNamedAccounts();
     const chainId = network.config.chainId;
 
-    let deployedContract = "DefiInsure";
-
+    let deployedContract = "CDefiInsure";
     const helpers = networkConfig[chainId];
-    let args = [helpers.verseToken, helpers.verseFarm, helpers.minimumAmount];
+    let args = [
+        helpers.verseToken,
+        helpers.verseFarm,
+        helpers.minimumAmount,
+        helpers.caller,
+    ];
+
     console.log(args);
     log("---------------------------------------------------------------");
 
-    log("deploying DefiInsure contract and waiting for confirmations");
+    log("deploying CDefiInsure contract and waiting for confirmations");
+    console.log(args);
     if (chainId == 5) {
+        console.log("skipped");
+    } else {
+        // const callerAddr = JSON.parse(
+        //     fs.readFileSync("deployments/goerli/DefiInsure.json", "utf8")
+        // );
+        // args.push(callerAddr["address"]);
+
         const contract = await deploy(deployedContract, {
             from: deployer,
             args: args,
@@ -37,8 +50,6 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
             console.log(args);
             await verify(contract.address, args);
         }
-    } else {
-        console.log("skipped");
     }
 };
 
