@@ -54,15 +54,15 @@ contract CDefiInsure {
     VerseFarm public immutable i_verseFarm;
 
     constructor(
-        VerseToken _verseToken,
-        VerseFarm _verseFarm,
+        address _verseToken,
+        address _verseFarm,
         uint256 _minimumValue,
         address caller_
     ) {
         s_owner = msg.sender;
         CALLER = caller_;
-        i_verseFarm = _verseFarm;
-        i_verseToken = _verseToken;
+        i_verseFarm = VerseFarm(_verseFarm);
+        i_verseToken = VerseToken(_verseToken);
         MINIMUM_VALUE = _minimumValue;
     }
 

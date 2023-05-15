@@ -69,13 +69,13 @@ contract DefiInsure {
     VerseFarm public immutable i_verseFarm;
 
     constructor(
-        VerseToken _verseToken,
-        VerseFarm _verseFarm,
+        address _verseToken,
+        address _verseFarm,
         uint256 _minimumValue
     ) {
         s_owner = msg.sender;
-        i_verseFarm = _verseFarm;
-        i_verseToken = _verseToken;
+        i_verseFarm = VerseFarm(_verseFarm);
+        i_verseToken = VerseToken(_verseToken);
         MINIMUM_VALUE = _minimumValue;
     }
 
