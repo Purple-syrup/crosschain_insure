@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.12;
+pragma solidity ^0.8.19;
 
+import "@chainlink/contracts/src/v0.8/interfaces/KeeperCompatibleInterface.sol";
+
+error DefiInsure__UpkeepNotNeeded();
 error DefiInsure__InvalidValue();
 error DefiInsure__NotOwner();
 error DefiInsure__TxFailed();
@@ -31,7 +34,7 @@ interface VerseFarm {
     function claimReward() external returns (uint256 rewardAmount);
 }
 
-contract CDefiInsure {
+contract CDefiInsure is KeeperCompatibleInterface {
     struct entity {
         address entityAddr;
         uint256 deadline;
@@ -42,6 +45,7 @@ contract CDefiInsure {
     mapping(string => entity) private s_insured;
     event RewardClaim(uint256 Amount);
 
+    uint256 public s_numDays;
     uint256 public s_balance;
     uint256 public s_netStaked;
     uint256 public s_netEntities;
@@ -90,7 +94,7 @@ contract CDefiInsure {
         i_verseFarm.farmWithdraw(amount);
     }
 
-    function claimReward() external {
+    function claimReward() internal {
         /**function to pull stake rewards from Verse staking contract */
         uint256 rewardAmount = i_verseFarm.claimReward();
         emit RewardClaim(rewardAmount);
@@ -125,6 +129,33 @@ contract CDefiInsure {
         _withdraw(_to, _amount);
         success = true;
         result = "";
+    }
+
+    function checkUpkeep(
+        bytes memory /* checkData */
+    )
+        public
+        view
+        override
+        returns (
+            bool upkeepNeeded,
+            bytes memory /* performData */
+        )
+    {
+        bool timeUP = block.timestamp >= s_numDays;
+        upkeepNeeded = timeUP;
+        return (upkeepNeeded, "0x0");
+    }
+
+    function performUpkeep(
+        bytes calldata /* performData */
+    ) external override {
+        (bool upkeepNeeded, ) = checkUpkeep("");
+        if (!upkeepNeeded) {
+            revert DefiInsure__UpkeepNotNeeded();
+        }
+        s_numDays = block.timestamp + 10 days;
+        claimReward();
     }
 
     function getEntity(string calldata id)

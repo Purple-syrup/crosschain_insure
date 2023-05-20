@@ -8,7 +8,7 @@ require("dotenv").config();
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
     solidity: {
-        compilers: [{ version: "0.8.12" }, { version: "0.8.7" }],
+        compilers: [{ version: "0.8.19" }, { version: "0.8.7" }],
     },
     networks: {
         hardhat: {
