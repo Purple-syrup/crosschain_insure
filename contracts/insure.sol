@@ -55,6 +55,8 @@ contract DefiInsure {
 
     mapping(string => entity) private s_insured;
 
+    event RewardClaim(uint256 Amount);
+
     uint256 public s_balance;
     uint256 public s_netStaked;
     uint256 public s_netEntities;
@@ -97,13 +99,15 @@ contract DefiInsure {
 
     function unStake(uint256 amount) external {
         /**function to pull stake from Verse staking contract */
+        if (msg.sender != s_owner) revert DefiInsure__NotOwner();
         s_netStaked -= amount;
         i_verseFarm.farmWithdraw(amount);
     }
 
     function claimReward() external {
         /**function to pull stake rewards from Verse staking contract */
-        i_verseFarm.claimReward();
+        uint256 rewardAmount = i_verseFarm.claimReward();
+        emit RewardClaim(rewardAmount);
     }
 
     function transferVerse(uint256 amount) external {
