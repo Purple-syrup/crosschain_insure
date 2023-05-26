@@ -25,13 +25,12 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         helpers.token,
     ];
 
-    console.log(args);
     log("---------------------------------------------------------------");
 
     log("deploying CDefiInsure contract and waiting for confirmations");
-    console.log(args);
+
     if (chainId == 5) {
-        console.log("skipped");
+        console.log("skipped other");
     } else {
         // const callerAddr = JSON.parse(
         //     fs.readFileSync("deployments/goerli/DefiInsure.json", "utf8")

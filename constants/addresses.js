@@ -1,215 +1,549 @@
 var addresses = {
-    97: {
-        name: "BNB",
-        address: "0xeFf5D7c9ea237a0Ad814AB5FF07eE9805B837F13",
-        url: "https://testnet.bscscan.com/address/0xeFf5D7c9ea237a0Ad814AB5FF07eE9805B837F13#code",
+    5: {
+        name: "Goerli",
+        address: "0x265Ea122D562f8464CbfBcfd0cb6768cE86FFc87",
+        url: "https://goerli.etherscan.io/address/0x265Ea122D562f8464CbfBcfd0cb6768cE86FFc87#code",
     },
 
-    4002: {
-        name: "FTM",
-        address: "0x1D94b4EFe2310157dCD84a1F8a95cc8e6ceA29A9",
-        url: "https://testnet.ftmscan.com/address/0x1d94b4efe2310157dcd84a1f8a95cc8e6cea29a9#code",
-    },
 };
 
 var abi = [
     {
-        inputs: [],
-        stateMutability: "nonpayable",
-        type: "constructor",
-    },
-    {
-        inputs: [],
-        name: "DefiInsure__InvalidValue",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "DefiInsure__NotOwner",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "DefiInsure__TxFailed",
-        type: "error",
-    },
-    {
-        inputs: [],
-        name: "anycallbnbcontract",
-        outputs: [
+        "inputs": [
             {
-                internalType: "address",
-                name: "",
-                type: "address",
+                "internalType": "address",
+                "name": "_verseToken",
+                "type": "address"
             },
+            {
+                "internalType": "address",
+                "name": "_verseFarm",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_minimumValue",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "oracleId_",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "jobId_",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "fee_",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "token_",
+                "type": "address"
+            }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "nonpayable",
+        "type": "constructor"
     },
     {
-        inputs: [
-            {
-                internalType: "string",
-                name: "id",
-                type: "string",
-            },
-        ],
-        name: "getDeadline",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
+        "inputs": [],
+        "name": "DefiInsure__InvalidValue",
+        "type": "error"
     },
     {
-        inputs: [
+        "inputs": [],
+        "name": "DefiInsure__NotOwner",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "DefiInsure__UpkeepNotNeeded",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
             {
-                internalType: "string",
-                name: "id",
-                type: "string",
-            },
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "id",
+                "type": "bytes32"
+            }
         ],
-        name: "getEntity",
-        outputs: [
+        "name": "ChainlinkCancelled",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
             {
-                components: [
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "id",
+                "type": "bytes32"
+            }
+        ],
+        "name": "ChainlinkFulfilled",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "id",
+                "type": "bytes32"
+            }
+        ],
+        "name": "ChainlinkRequested",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "from",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+            }
+        ],
+        "name": "OwnershipTransferRequested",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "from",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+            }
+        ],
+        "name": "OwnershipTransferred",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "Amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "RewardClaim",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "acceptOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "anycallethcontract",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes",
+                "name": "",
+                "type": "bytes"
+            }
+        ],
+        "name": "checkUpkeep",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "upkeepNeeded",
+                "type": "bool"
+            },
+            {
+                "internalType": "bytes",
+                "name": "",
+                "type": "bytes"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_requestId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes",
+                "name": "_inflation",
+                "type": "bytes"
+            }
+        ],
+        "name": "fulfillPlasticInflation",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "id",
+                "type": "string"
+            }
+        ],
+        "name": "getDeadline",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "id",
+                "type": "string"
+            }
+        ],
+        "name": "getEntity",
+        "outputs": [
+            {
+                "components": [
                     {
-                        internalType: "address",
-                        name: "entityAddr",
-                        type: "address",
+                        "internalType": "address",
+                        "name": "entityAddr",
+                        "type": "address"
                     },
                     {
-                        internalType: "uint256",
-                        name: "deadline",
-                        type: "uint256",
-                    },
+                        "internalType": "uint256",
+                        "name": "deadline",
+                        "type": "uint256"
+                    }
                 ],
-                internalType: "struct DefiInsure.entity",
-                name: "",
-                type: "tuple",
-            },
+                "internalType": "struct DefiInsure.entity",
+                "name": "",
+                "type": "tuple"
+            }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        inputs: [
+        "inputs": [],
+        "name": "getPlasticInflation",
+        "outputs": [
             {
-                internalType: "string",
-                name: "id",
-                type: "string",
-            },
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
         ],
-        name: "payInsurance",
-        outputs: [],
-        stateMutability: "payable",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        inputs: [],
-        name: "s_balance",
-        outputs: [
+        "inputs": [],
+        "name": "i_verseFarm",
+        "outputs": [
             {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
+                "internalType": "contract VerseFarm",
+                "name": "",
+                "type": "address"
+            }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        inputs: [],
-        name: "s_netEntities",
-        outputs: [
+        "inputs": [],
+        "name": "i_verseToken",
+        "outputs": [
             {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
+                "internalType": "contract VerseToken",
+                "name": "",
+                "type": "address"
+            }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        inputs: [],
-        name: "s_netStaked",
-        outputs: [
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
             {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        inputs: [
+        "inputs": [
             {
-                internalType: "address",
-                name: "addr",
-                type: "address",
-            },
-            {
-                internalType: "uint256",
-                name: "amount",
-                type: "uint256",
-            },
+                "internalType": "string",
+                "name": "id",
+                "type": "string"
+            }
         ],
-        name: "unStake",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "name": "payInsurance",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
-        inputs: [
+        "inputs": [
             {
-                internalType: "address",
-                name: "addr",
-                type: "address",
-            },
-            {
-                internalType: "uint256",
-                name: "amount",
-                type: "uint256",
-            },
+                "internalType": "bytes",
+                "name": "",
+                "type": "bytes"
+            }
         ],
-        name: "withdraw",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "name": "performUpkeep",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
-        inputs: [
+        "inputs": [],
+        "name": "requestPlasticInflation",
+        "outputs": [
             {
-                internalType: "address",
-                name: "destinationAddress",
-                type: "address",
-            },
-            {
-                internalType: "address",
-                name: "to",
-                type: "address",
-            },
-            {
-                internalType: "uint256",
-                name: "amount",
-                type: "uint256",
-            },
-            {
-                internalType: "uint256",
-                name: "chainId",
-                type: "uint256",
-            },
+                "internalType": "bytes32",
+                "name": "requestId",
+                "type": "bytes32"
+            }
         ],
-        name: "withdrawOtherchains",
-        outputs: [],
-        stateMutability: "payable",
-        type: "function",
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
+    {
+        "inputs": [],
+        "name": "s_balance",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "s_fee",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "s_jobId",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "s_netEntities",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "s_netStaked",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "s_numDays",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "s_oracleId",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "s_plasticInflation",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+            }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "transferVerse",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "unStake",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "addr",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "withdraw",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "destinationAddress",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "chainId",
+                "type": "uint256"
+            }
+        ],
+        "name": "withdrawOtherchains",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    }
 ];

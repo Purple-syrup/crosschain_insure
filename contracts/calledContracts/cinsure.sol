@@ -37,10 +37,13 @@ interface VerseFarm {
     function claimReward() external returns (uint256 rewardAmount);
 }
 
-contract CDefiInsure is KeeperCompatibleInterface ,ChainlinkClient,
-    ConfirmedOwner{
-        using Chainlink for Chainlink.Request;
-        
+contract CDefiInsure is
+    KeeperCompatibleInterface,
+    ChainlinkClient,
+    ConfirmedOwner
+{
+    using Chainlink for Chainlink.Request;
+
     struct entity {
         address entityAddr;
         uint256 deadline;
@@ -79,7 +82,7 @@ contract CDefiInsure is KeeperCompatibleInterface ,ChainlinkClient,
         string memory jobId_,
         uint256 fee_,
         address token_
-    ) ConfirmedOwner(msg.sender){
+    ) ConfirmedOwner(msg.sender) {
         s_owner = msg.sender;
         CALLER = caller_;
         i_verseFarm = VerseFarm(_verseFarm);

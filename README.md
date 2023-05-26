@@ -35,9 +35,9 @@
 
 -   **Contract** >
 
-    -   Binance [0xeFf5D7c9ea237a0Ad814AB5FF07eE9805B837F13](https://testnet.bscscan.com/address/0xeFf5D7c9ea237a0Ad814AB5FF07eE9805B837F13#code)
+    -   Goerli [0x265Ea122D562f8464CbfBcfd0cb6768cE86FFc87](https://goerli.etherscan.io/address/0x265Ea122D562f8464CbfBcfd0cb6768cE86FFc87#code)
 
-    -   Fantom [0x1D94b4EFe2310157dCD84a1F8a95cc8e6ceA29A9](https://testnet.ftmscan.com/address/0x1d94b4efe2310157dcd84a1f8a95cc8e6cea29a9#code)
+    -   extra chains supported by verse
 
 -   **Crosschain** > [see here](#multichain-anycall)
 
@@ -78,8 +78,8 @@ Currently we do not have enough legislation on after use act for plastic produci
 | **`Vanilla JS`**         | Frontend                                             |
 | **`Multichain_Anycall`** | Crosschain functionalities                           |
 | **`Moralis`**            | contract calls & DB                                  |
-| **`Binance Chain`**      | Main contract deployed/performs call to other chains |
-| **`Fantom Chain`**       | deployed child on ftm test net                       |
+| **`Goerli Chain`**      | Main contract deployed/performs call to other chains |
+| **`other Chains`**       | to be deployed child on other chains when supported by verse                     |
 
 -   ### **Solidity smart contracts**
 

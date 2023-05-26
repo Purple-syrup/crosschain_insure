@@ -46,7 +46,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
             await verify(contract.address, args);
         }
     } else {
-        console.log("skipped");
+        console.log("skipped 5");
     }
 };
 
