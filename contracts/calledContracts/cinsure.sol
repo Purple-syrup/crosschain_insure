@@ -2,6 +2,9 @@
 pragma solidity ^0.8.19;
 
 import "@chainlink/contracts/src/v0.8/interfaces/KeeperCompatibleInterface.sol";
+import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
+import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 error DefiInsure__UpkeepNotNeeded();
 error DefiInsure__InvalidValue();
@@ -34,7 +37,10 @@ interface VerseFarm {
     function claimReward() external returns (uint256 rewardAmount);
 }
 
-contract CDefiInsure is KeeperCompatibleInterface {
+contract CDefiInsure is KeeperCompatibleInterface ,ChainlinkClient,
+    ConfirmedOwner{
+        using Chainlink for Chainlink.Request;
+        
     struct entity {
         address entityAddr;
         uint256 deadline;
@@ -49,6 +55,12 @@ contract CDefiInsure is KeeperCompatibleInterface {
     uint256 public s_balance;
     uint256 public s_netStaked;
     uint256 public s_netEntities;
+    uint256 public s_fee;
+
+    string public s_plasticInflation;
+    string public s_jobId;
+
+    address public s_oracleId;
 
     uint256 public immutable MINIMUM_VALUE;
     uint256 constant DECIMALS = 1e18;
@@ -62,13 +74,21 @@ contract CDefiInsure is KeeperCompatibleInterface {
         address _verseToken,
         address _verseFarm,
         uint256 _minimumValue,
-        address caller_
-    ) {
+        address caller_,
+        address oracleId_,
+        string memory jobId_,
+        uint256 fee_,
+        address token_
+    ) ConfirmedOwner(msg.sender){
         s_owner = msg.sender;
         CALLER = caller_;
         i_verseFarm = VerseFarm(_verseFarm);
         i_verseToken = VerseToken(_verseToken);
         MINIMUM_VALUE = _minimumValue;
+        setChainlinkToken(token_);
+        s_oracleId = oracleId_;
+        s_jobId = jobId_;
+        s_fee = fee_;
     }
 
     function payInsurance(string calldata id) external {
@@ -156,6 +176,30 @@ contract CDefiInsure is KeeperCompatibleInterface {
         }
         s_numDays = block.timestamp + 10 days;
         claimReward();
+    }
+
+    function requestPlasticInflation() public returns (bytes32 requestId) {
+        Chainlink.Request memory req = buildChainlinkRequest(
+            bytes32(bytes(s_jobId)),
+            address(this),
+            this.fulfillPlasticInflation.selector
+        );
+        req.add("service", "truflation/current");
+        req.add("keypath", "yearOverYearInflation");
+        req.add("abi", "json");
+        req.add("refundTo", Strings.toHexString(uint160(msg.sender), 20));
+        return sendChainlinkRequestTo(s_oracleId, req, s_fee);
+    }
+
+    function fulfillPlasticInflation(
+        bytes32 _requestId,
+        bytes memory _inflation
+    ) public recordChainlinkFulfillment(_requestId) {
+        s_plasticInflation = string(_inflation);
+    }
+
+    function getPlasticInflation() external view returns (string memory) {
+        return s_plasticInflation;
     }
 
     function getEntity(string calldata id)

@@ -15,7 +15,15 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     let deployedContract = "DefiInsure";
 
     const helpers = networkConfig[chainId];
-    let args = [helpers.verseToken, helpers.verseFarm, helpers.minimumAmount];
+    let args = [
+        helpers.verseToken,
+        helpers.verseFarm,
+        helpers.minimumAmount,
+        helpers.oracleid,
+        helpers.jobid,
+        helpers.fee,
+        helpers.token,
+    ];
     console.log(args);
     log("---------------------------------------------------------------");
 

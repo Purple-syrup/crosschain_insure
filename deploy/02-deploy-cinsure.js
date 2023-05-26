@@ -19,6 +19,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         helpers.verseFarm,
         helpers.minimumAmount,
         helpers.caller,
+        helpers.oracleid,
+        helpers.jobid,
+        helpers.fee,
+        helpers.token,
     ];
 
     console.log(args);
