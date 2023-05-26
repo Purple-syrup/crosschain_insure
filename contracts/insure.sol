@@ -2,6 +2,9 @@
 pragma solidity ^0.8.19;
 
 import "@chainlink/contracts/src/v0.8/interfaces/KeeperCompatibleInterface.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
+import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
+import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
 interface CallProxy {
     function anyCall(
@@ -50,7 +53,13 @@ error DefiInsure__InvalidValue();
 error DefiInsure__NotOwner();
 error DefiInsure__TxFailed();
 
-contract DefiInsure is KeeperCompatibleInterface {
+contract DefiInsure is
+    KeeperCompatibleInterface,
+    ChainlinkClient,
+    ConfirmedOwner
+{
+    using Chainlink for Chainlink.Request;
+
     struct entity {
         address entityAddr;
         uint256 deadline;
@@ -64,6 +73,12 @@ contract DefiInsure is KeeperCompatibleInterface {
     uint256 public s_balance;
     uint256 public s_netStaked;
     uint256 public s_netEntities;
+    uint256 public s_fee;
+
+    string public s_plasticInflation;
+    string public s_jobId;
+
+    address public s_oracleId;
 
     address private s_owner;
     address public anycallethcontract =
@@ -77,12 +92,20 @@ contract DefiInsure is KeeperCompatibleInterface {
     constructor(
         address _verseToken,
         address _verseFarm,
-        uint256 _minimumValue
-    ) {
+        uint256 _minimumValue,
+        address oracleId_,
+        string memory jobId_,
+        uint256 fee_,
+        address token_
+    ) ConfirmedOwner(msg.sender) {
         s_owner = msg.sender;
         i_verseFarm = VerseFarm(_verseFarm);
         i_verseToken = VerseToken(_verseToken);
         MINIMUM_VALUE = _minimumValue;
+        setChainlinkToken(token_);
+        s_oracleId = oracleId_;
+        s_jobId = jobId_;
+        s_fee = fee_;
     }
 
     function payInsurance(string calldata id) external {
@@ -150,7 +173,7 @@ contract DefiInsure is KeeperCompatibleInterface {
             address(0),
             // chainid of ftm testnet
             chainId,
-            // Using 2 flag to pay fee on destination chain
+            // Using 2 flag to pay s_fee on destination chain
             2
         );
     }
@@ -180,6 +203,30 @@ contract DefiInsure is KeeperCompatibleInterface {
         }
         s_numDays = block.timestamp + 10 days;
         claimReward();
+    }
+
+    function requestPlasticInflation() public returns (bytes32 requestId) {
+        Chainlink.Request memory req = buildChainlinkRequest(
+            bytes32(bytes(s_jobId)),
+            address(this),
+            this.fulfillPlasticInflation.selector
+        );
+        req.add("service", "truflation/current");
+        req.add("keypath", "yearOverYearInflation");
+        req.add("abi", "json");
+        req.add("refundTo", Strings.toHexString(uint160(msg.sender), 20));
+        return sendChainlinkRequestTo(s_oracleId, req, s_fee);
+    }
+
+    function fulfillPlasticInflation(
+        bytes32 _requestId,
+        bytes memory _inflation
+    ) public recordChainlinkFulfillment(_requestId) {
+        s_plasticInflation = string(_inflation);
+    }
+
+    function getPlasticInflation() external view returns (string memory) {
+        return s_plasticInflation;
     }
 
     function getEntity(string calldata id)
