@@ -1,4 +1,4 @@
-# CONSERVE(Insurance but with DEFI)
+# SubZero (Insurance but with DEFI)
 
 > ## Table of Contents
 
@@ -6,15 +6,17 @@
 -   [Problem Statement](#problem-statement)
 -   [Solution](#solution)
 -   [Technologies Used](#technologies-used)
-    -   [Moralis](#moralis)
     -   [Multichain Anycall](#multichain-anycall)
-    -   [Binance](#binance-testnet)
+    -   [Verse Token and Staking](#verse-token-and-staking)
+    -   [Trufflation](#trufflation)
+    -   [Chainlink](#chainlink)
+    -   [Goerli](#goerli-testnet)
     -   [Smart Contract](#solidity-smart-contracts)
     -   [Fantom](#fantom-testnet)
 -   [Important Live Links](#importantlive-hosted-project-links)
 -   [Team Members](#contributors)
 -   [Project Features](#project-features)
--   [Why Conserv](#why-conserv)
+-   [Why SubZero](#why-subzero)
 -   [Features We Couldn't Complete](#features-we-couldnt-complete)
 -   [Future Project Plans](#future-project-plans)
 
@@ -22,16 +24,15 @@
 
 > ## Project Description
 
-<p><b style="color:orange">Decentralised insurance and regulatory platform</b> built to insure after-use liability of plastics to ensure sustainability of ocean and aquatic animals.
-<b style="color:orange">Conserv</b> is a decentralised insurance platform built on Binance/FTM chain with multichain function/interoperability,to unify plastic manufacturing companies and control ocean pollution caused by plastic after use dumping,which was estimated to be over 8 million tons found in the ocean, our platform registers plastic producing company and shares the license fee paid ($2000) into 2 automatically in a smart contract call,uses 50% as company insurance security(put in a staking platform) and 50% as an after use liability tax used to fund projects on ocean cleaning,plastic in ocean recycling and plastic waste control .  </p>
+<p><b style="color:orange">Subzero is a decentralized platform built to monitor and control the after use liability of plastics and it’s effect on inflation.</b>
+<b style="color:orange">Conserv</b> This is a global sustainability initiative to save the earth and aquatics from plastic dumps and its effect on inflation. Research shows that over 8 million tons of waste plastics are found dumped in the ocean as a result of human activities. our platform envisions to reduce and control the dumping and disposal of plastics after use by insuring plastic producing companies,our monthly insurance premium is 1000$ per registered company, 50% of this fee is staked as security in our pool and the other 50% is used to fund projects and initiatives on ocean cleaning,waste plastics recycling and control .  </p>
 
 #
 
 ## Important/Live Hosted Project Links
 
--   **Hosted URL** > [https://conserve.on.fleek.co/](https://conserve.on.fleek.co/)
 
--   **Github** > [https://github.com/Godhanded/crosschain_insure](https://github.com/Godhanded/crosschain_insure)
+-   **Github** > [https://github.com/Godhanded/SubZero](https://github.com/Godhanded/SubZero)
 
 -   **Contract** >
 
@@ -61,9 +62,7 @@ Currently we do not have enough legislation on after use act for plastic produci
 -   Godhanded(Blockchain Dev)
     -   [Twitter, @Godand](https://twitter.com/Godand_)
     -   [Github, @Godhanded](https://github.com/Godhanded) <br>
--   Miraclemenikelechi(Front-End dev)
-    -   [Twitter, @trinityandtruth](https://twitter.com/trinityandtruth?s=20&t=ZIj6s8ImLoDYIqEpV-qfKw)
-    -   [Github, @miraclemenikelechi](https://github.com/miraclemenikelechi)<br>
+
 -   Nuelvations(Product Manager)
     -   [Twitter, @defiprince\_](https://twitter.com/defiprince_)
     -   [Github, @nuelvations](https://github.com/nuelvations) <br>
@@ -75,15 +74,16 @@ Currently we do not have enough legislation on after use act for plastic produci
 | <b><u>Stack</u></b>      | <b><u>UsageSummary</u></b>                           |
 | :----------------------- | :--------------------------------------------------- |
 | **`Solidity`**           | Smart contract                                       |
-| **`Vanilla JS`**         | Frontend                                             |
 | **`Multichain_Anycall`** | Crosschain functionalities                           |
-| **`Moralis`**            | contract calls & DB                                  |
+|  **`Verse Token and Staking`**            | 50% of premium is staked in verse staking farm                                 |
 | **`Goerli Chain`**      | Main contract deployed/performs call to other chains |
-| **`other Chains`**       | to be deployed child on other chains when supported by verse                     |
+| **`Trufflation`**       | used its Oracle to queary year of year inflation index|
+| **`ChainLink`**       | using chainlink keepers to call claim reward functions and AnyApi to get inflationindex from Trufflation |
+| **`other Chains`**       | to be deployed child on other chains when supported by verse and Trufflation              |
 
 -   ### **Solidity smart contracts**
 
-    Conserve makes use of two smart contracts see [2 contracts](hhttps://github.com/Godhanded/crosschain_insure/tree/main/contracts)
+    Conserve makes use of two smart contracts see [2 contracts](hhttps://github.com/Godhanded/SubZero/tree/main/contracts)
 
     -   **DefiInsure** The main or home contract through which calls to other chains are made possible
     -   **CDefiInsure** the same contract but with an execute function which is called by another contract from a different chain to peform an internal contract call
@@ -91,22 +91,24 @@ Currently we do not have enough legislation on after use act for plastic produci
 
 -   ### **Multichain Anycall**
 
-    -   <b style="color: orange">The multichain-anycall protocol is phenominal</b>, we used it to perform crosschain functions like call our withdraw function on our three contracts deployed on three different chains(BINANCE, FTM) see [code here](https://github.com/Godhanded/crosschain_insure/blob/main/contracts/insure.sol#L78) and [here](https://github.com/Godhanded/crosschain_insure/blob/main/contracts/calledContracts/cinsure.sol#L62)
+    -   <b style="color: orange">The multichain-anycall protocol is phenominal</b>, we used it to perform crosschain functions like call our withdraw function on our multiple contracts deployed on different chains(Goerli, FTM) see [code here](https://github.com/Godhanded/SubZero/blob/main/contracts/insure.sol#L78) and [here](https://github.com/Godhanded/SubZero/blob/main/contracts/calledContracts/cinsure.sol#L62)
 
--   ### **Moralis**
+- ###  **Verse Token and Staking**
+    - 50% of premium is staked in verse staking farm to earn rewards on each premium, this will later be used to support Plastic companies and perform ocean clean ups.
 
-    -   The Moralis vanilla js SDK was used in this project for all smart contract calls, see [one of the functions](https://github.com/Godhanded/crosschain_insure/blob/main/frontend/js/script.js)
+- ### **Trufflation**
+    - We used trufflation to retrieve on-chain through chainlink, the year out of year inflation index, used for transperency and will later be modified for tracking progress for plastics only.
 
-    -   Moralis was also used to connect and communicate with A web3 provider like Metamask. see [handleAuth function](https://github.com/Godhanded/crosschain_insure/blob/main/frontend/js/script.js#L25)
+- ### **ChainLink**
+    - using chainlink keepers to call claim reward functions and AnyApi to get inflation index from Trufflation 
 
--   ### **Binance Testnet**
+-   ### **Goerli Testnet**
 
-    -   The contract on this chain was used as <b style="color: orange">the Home or main </b>through which calls to two other chains can be made, The contract was deployed and verified, see [Contract here](https://testnet.bscscan.com/address/0xeFf5D7c9ea237a0Ad814AB5FF07eE9805B837F13#code)
+    -   The contract on this chain was used as <b style="color: orange">the Home or main </b>through which calls to two other chains can be made, The contract was deployed and verified, see [Contract here](https://goerli.etherscan.io/address/0x265Ea122D562f8464CbfBcfd0cb6768cE86FFc87#code)
 
 -   ### **Fantom Testnet**
 
-    -   <b style="color: orange">A crosschain enabled</b> smart contract was deployed and Verified on the FTM Test net
-        see [Contract here](https://testnet.ftmscan.com/address/0x1d94b4efe2310157dcd84a1f8a95cc8e6cea29a9#code)
+    -   <b style="color: orange">A crosschain enabled</b> smart contract will be deployed and Verified on the FTM Test net once Trufffleation and Verse tokens and staking platforms are present there.
 
     -   insurance is payed by calling the payInsurance function on the contract
 
@@ -114,46 +116,50 @@ Currently we do not have enough legislation on after use act for plastic produci
 
 > ## Solution
 
-<p>it is our responsibility to keep our ocean clean to sustain aqua life and humanity also,we wish to control plastics in ocean,conserv is doing this by increasing producer responsibility,improve plastic waste management by taxing producing companies to fund ocean clean-up projects as an after use liability on plastics,50% of the license tax payed by insured companies is used to fund projects on plastic waste clean-up,recycle projects,and 50% is staked on the Binance/FTM network as security for our insured companies.</p>
+<p>it is our responsibility to keep our ocean clean to sustain aqua life and humanity also,we wish to control plastics in ocean and monitor it’s effect on inflation ,subzero is doing this by increasing producer responsibility,improve plastic waste management by taxing producing companies to fund ocean clean-up projects as an after use liability on plastics,50% of the license tax payed by insured companies is used to fund projects on plastic waste clean-up,recycle projects,and 50% is staked on the Verse network as security for our insured companies.
+</p>
 <p><b style="color: orange">Blockchain adoption - </b>
-Conserv is not just an insurance service but a decentralised platform built on multichain network, we are decentralised because our insured companies funds are secured in a TVL token yield pool which has total transparency not just that,our insured companies have the rights to outvote any after use plastic clean up project we wish to sponsor,as the have voting power in our decision making,our plans with time is to build a strong DAO which oversees the decision making and project mapping of our product as we are just executives, our vision is to exploit decentralised Finance on Binance network by insuring after-use liability of plastics to promote sustainability of ocean and aquatic animals .</p>
-<p><b style="color:orange">Conserv - </b>if we all focus insurance on manufacturing assets,technology and property what now happens to the after use liability of this plastics? Our insurance covers plastic after use liability which is a producer responsibility and this shields you from any form of lawsuit on plastic afteruse disposal and ocean dumping. As we also use 50% of your insurance fee to fund a staking pool as security to your companies general asset insurance,and 50% to fund ocean clean up projects and plastic recycle,Conserv is a game changer </p>
+ Subzero is not just an insurance service but a decentralised platform built on multichain network,our dapp monitors the effect of plastics on inflation rate using Chainlink oracle to load data from Truflation,our insured companies funds are secured in a TVL token yield pool which has total transparency not just that,our insured companies have the rights to outvote any after use plastic clean up project we wish to sponsor,as the have voting power in our decision making,our plans with time is to build a strong DAO which oversees the decision making and project mapping of our product as we are just executives, our vision is to exploit decentralised Finance on Verse network by insuring after-use liability of plastics to promote sustainability of ocean and aquatic animals .</p>
+<p><b style="color:orange">Subzero - </b>If we all focus insurance on manufacturing assets,technology and property what now happens to the after use liability of this plastics? Our insurance covers plastic after use liability which is a producer responsibility and this shields you from any form of lawsuit on plastic afteruse disposal and ocean dumping. As we also use 50% of your insurance fee to fund a staking pool as security to your companies general asset insurance,and 50% to fund ocean clean up projects and plastic recycle. 
+</p>
 
 #
 
 > ## Product -
 
-<p><b style="color:orange">Conserv</b> is a decentralised insurance platform built on Binance/FTM chain with multichain function,to unify plastic manufacturing companies and control ocean pollution caused by plastic after use dumping,which was estimated to be over 8 million tons found in the ocean, our platform registers plastic producing company and shares the license fee paid ($2000) into 2 automatically in a smart contract call,uses 50% as company insurance security and 50% as an after use liability tax used to fund projects on ocean cleaning,plastic in ocean recycling and plastic waste control . </p>
+<p><b style="color:orange">Subzero</b> is a decentralized platform built on Verse network with multichain function,to monitor/control plastic disposal and it’s effect on inflation rate, and control ocean pollution caused by plastic after use dumping,which was estimated to be over 8 million tons found in the ocean, our platform registers plastic producing company and shares the insurance premium paid <b style="color:orange">($1000)</b> into 2 automatically in a smart contract call,uses 50% as company insurance security and 50% as an after use liability fund used to sponsor projects on ocean cleaning,plastic in ocean recycling and plastic waste control .</p>
 
 #
 
-> ## Why Conserv -
+> ## Why Subzero -
 
 <p><b style="color:orange">We understand the Defi game</b> and we are building on the most reliable networks,
-We are the first insurance platform to leverage on defi by using the binance/ftm staking pool as our value lock vault,all our transactions are transparent and trusted,our core focus is on after-use liability of plastics as this is an arising environmental issue and we have the best metrics to solve it.</p>
+We are the first insurance platform to leverage on defi by using the Ethereum/ftm staking pool as our value lock vault,all our transactions are transparent and trusted,our core focus is on after-use liability of plastics as this is an arising environmental issue and we have the best metrics to solve it.</p>
 
 #
 
 ## Project features
 
 -   Insurance & Security
--   Staking
+-   Staking on Verse
 -   Multichain
--   uses Multichain-anycall, Moralis, Binance, Fantom chains
+-   uses Multichain-anycall, Trufflation YOY inflation Index,Verse Tokens and Staking ,Fantom chains
 
 #
 
 ## Features we couldn't complete
 
--   we could not find a Staking platform on the Testnets
-    > we wanted to immediately use an external call to call the stake function on any reputable
-    > Staking platform on the chain, so as to earn APR, unfortunately we coulnt find any and lacked time and resources to bild our own. <b style="color:orange">Thankfully there are many on MainNet</b>
+-   we could not find a Inflation Index for Plastics alone on Trufflation
+    > we wanted to immediately collect data concerning plastic waste and use it to calculate its contribution to the year out of year inflation index.
+
+- We couldn't finish building a front end for the project hence made deu with remix IDE 
 
 #
 
 ## Future Project Plans
 
-We plan to push this project further after the hackathon, and integrate some stacks we weren’t able to complete due to time lapse .
 
--   <b style="color:orange">Firstly</b> we propose to double down and build more on our crosschain functionalities and make the contracts as smooth and interrelatable as possible using <b style="color:orange">Multichain-Anycall protocol.</b>
--   <b style="color:orange">Improved Analytics to track and provide easily data concerning all companies insured, total money in/out flow , deadlines and net APY</b>
+ We plan to push this project further after the hackathon, and integrate some stacks we weren’t able to complete due to time lapse .
+ - <b style="color:orange">Firstly</b>,Improved Analytics to track and provide on chain data on plastic dumping per geo location and it’s effect on inflation rate. This would be a KPI for our dapp as we envision to save the earth from the hazards of waste plastics.
+
+
